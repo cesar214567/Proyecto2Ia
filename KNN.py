@@ -1,5 +1,9 @@
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
-X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])
+from main import read_data
+
+
+
+X = read_data()
 nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X)
 distances, indices = nbrs.kneighbors(X)
