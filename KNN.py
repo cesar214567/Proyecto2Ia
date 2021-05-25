@@ -1,16 +1,55 @@
 from sklearn.neighbors import NearestNeighbors
 from sklearn.neighbors import KDTree
 import numpy as np
-from main import read_data
+from main import get_partitions
+from main import save_data
 
 
-
-X = read_data()
+#X = read_data()
 #nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X)
 #distances, indices = nbrs.kneighbors(X)
 
+def find_type(diccionary):
+    mx = 0
+    mv = ''
+    for t, value in diccionary.items():
+        if mx < value:
+            mv = t
+            mx = value
+    return mv
+      
 
-kdt = KDTree(X, leaf_size=30, metric='euclidean')
-response = kdt.query(X, k=2, return_distance=False)
 
-print(response)
+def results(X_train,X_test,X_train_data,X_test_data,results_data):
+    i = 0
+    for results in results_data:
+        diccionary = {"fear" : 0, "anger": 0, "contempt": 0, "happy": 0, "disgust": 0,"sadness": 0, "surprise": 0}
+        for result in results:
+            diccionary[X_train[result]['type']] += 1
+        
+        if X_test[i]['type'] == find_type(diccionary):
+            print('Good')
+        else:
+            print('Bad')
+            print(X_test[i]['type'])
+            print(find_type(diccionary))
+        i+=1
+        
+
+def knn(X_train,X_test,X_train_data,X_test_data):
+    #i = 0
+    #for item in X_test:
+    #    print(item)
+    #    print(X_test_data[i])
+    #    print('---------------------------------')
+    #    i+=1
+
+
+
+    kdt = KDTree(X_train_data, leaf_size=30, metric='euclidean')
+
+    response = kdt.query(X_test_data, k=2, return_distance=False)
+    #print(response)
+    results(X_train,X_test,X_train_data,X_test_data,response)
+save_data()
+get_partitions(5,knn)

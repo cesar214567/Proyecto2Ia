@@ -4,7 +4,6 @@ from matplotlib.image import imread
 from numpy.lib.type_check import real
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
-
 import pywt
 import pywt.data
 
@@ -41,8 +40,8 @@ def save_data():
         LL, (LH, HL, HH) = coeffs2
         coeffs2 = pywt.dwt2(LL,'haar')
         LL, (LH, HL, HH) = coeffs2
-        coeffs2 = pywt.dwt2(LL,'haar')
-        LL, (LH, HL, HH) = coeffs2
+        #coeffs2 = pywt.dwt2(LL,'haar')
+        #LL, (LH, HL, HH) = coeffs2
         LL = LL.flatten()        
         dict = {"id":cont,"type":getType(real_url),"url":real_url , "data":LL}
         ds_train.append(dict)
@@ -67,10 +66,6 @@ def method(X_train,X_test,X_train_data,X_test_data):
 def get_partitions(K,method): # K-folds N<K
     data = read_data() #####################################
     kf = KFold(n_splits=K)
-    X_train = []
-    X_test = []
-    X_train_data =[]
-    X_test_data = []
     for train_index, test_index in kf.split(data):
         #print("TRAIN:", train_index, "TEST:", test_index)
         X_train_data =[]
@@ -84,7 +79,7 @@ def get_partitions(K,method): # K-folds N<K
         method(X_train,X_test,X_train_data,X_test_data)
 
 
-#get_partitions(2,method)
+#get_partitions(2,knn)
 
 #fig = plt.figure(figsize=(12, 3))
 #for i, a in enumerate([LL, LH, HL, HH]):
