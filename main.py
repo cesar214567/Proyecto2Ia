@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.image import imread
 from numpy.lib.type_check import real
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
 
 import pywt
 import pywt.data
@@ -55,33 +56,35 @@ def read_data():
     data = np.load("db.npy",allow_pickle=True)
     return data
 
-def get_partitions(N,K): # K-folds N<K
-    data = read_data()
-    size = len(data)
-    train = []
-    test = []
-    train_data =[]
-    test_data = []
-    for i in range(size):
-        if (i>=size*N/K and i<size*(N+1)/K):
-            test.append(data[i])
-            test_data.append(data[i]["data"])
-        else:
-            train.append(data[i])
-            train_data.append(data[i]["data"])
-    
-    return train,test,train_data,test_data
+def method(X_train,X_test,X_train_data,X_test_data):
+    print(X_train[0]) 
+    print(X_train_data[0]) 
+    print("###########")
+    print(X_test[0]) 
+    print(X_test_data[0]) 
+    print("########################")
 
-#save_data()
+def get_partitions(K,method): # K-folds N<K
+    data = read_data() #####################################
+    kf = KFold(n_splits=K)
+    X_train = []
+    X_test = []
+    X_train_data =[]
+    X_test_data = []
+    for train_index, test_index in kf.split(data):
+        #print("TRAIN:", train_index, "TEST:", test_index)
+        X_train_data =[]
+        X_test_data = []
+        X_train, X_test = data[train_index], data[test_index]
+        for item in X_train:
+            X_train_data.append(item["data"])
+        for item in X_test:
+            X_test_data.append(item["data"])
+        ##here goes the algorithm
+        method(X_train,X_test,X_train_data,X_test_data)
 
-#data=read_data()
 
-train,test,train_data,test_data = get_partitions(1,7)
-
-for i in test:
-    print(i)
-
-
+#get_partitions(2,method)
 
 #fig = plt.figure(figsize=(12, 3))
 #for i, a in enumerate([LL, LH, HL, HH]):
