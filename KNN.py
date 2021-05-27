@@ -37,19 +37,11 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data):
         
 
 def knn(X_train,X_test,X_train_data,X_test_data):
-    #i = 0
-    #for item in X_test:
-    #    print(item)
-    #    print(X_test_data[i])
-    #    print('---------------------------------')
-    #    i+=1
-
-
-
     kdt = KDTree(X_train_data, leaf_size=30, metric='euclidean')
-
     response = kdt.query(X_test_data, k=2, return_distance=False)
-    #print(response)
     results(X_train,X_test,X_train_data,X_test_data,response)
+
+
+    
 save_data()
 get_partitions(5,knn)
