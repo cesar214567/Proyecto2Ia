@@ -22,6 +22,8 @@ def find_type(diccionary):
 
 def results(X_train,X_test,X_train_data,X_test_data,results_data):
     i = 0
+    goods =0
+    bads = 0
     for results in results_data:
         diccionary = {"fear" : 0, "anger": 0, "contempt": 0, "happy": 0, "disgust": 0,"sadness": 0, "surprise": 0}
         for result in results:
@@ -29,19 +31,23 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data):
         
         if X_test[i]['type'] == find_type(diccionary):
             print('Good')
+            goods+=1
         else:
             print('Bad')
+            bads+=1
             print(X_test[i]['type'])
             print(find_type(diccionary))
         i+=1
-        
+    print("goods: ",goods)
+    print("bads: ",bads)
+                
 
 def knn(X_train,X_test,X_train_data,X_test_data):
     kdt = KDTree(X_train_data, leaf_size=30, metric='euclidean')
-    response = kdt.query(X_test_data, k=2, return_distance=False)
+    response = kdt.query(X_test_data, k=5, return_distance=False)
     results(X_train,X_test,X_train_data,X_test_data,response)
 
 
     
 save_data()
-get_partitions(5,knn)
+get_partitions(7,knn)

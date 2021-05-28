@@ -40,8 +40,8 @@ def save_data():
         LL, (LH, HL, HH) = coeffs2
         coeffs2 = pywt.dwt2(LL,'haar')
         LL, (LH, HL, HH) = coeffs2
-        #coeffs2 = pywt.dwt2(LL,'haar')
-        #LL, (LH, HL, HH) = coeffs2
+        coeffs2 = pywt.dwt2(LL,'haar')
+        LL, (LH, HL, HH) = coeffs2
         LL = LL.flatten()        
         dict = {"id":cont,"type":getType(real_url),"url":real_url , "data":LL}
         ds_train.append(dict)
@@ -49,7 +49,7 @@ def save_data():
     np.save("db.npy",ds_train,allow_pickle=True)
     return ds_train
 
-#test();
+#save_data()
 
 def read_data():
     data = np.load("db.npy",allow_pickle=True)
@@ -65,7 +65,7 @@ def method(X_train,X_test,X_train_data,X_test_data):
 
 def get_partitions(K,method): # K-folds N<K
     data = read_data() #####################################
-    kf = KFold(n_splits=K)
+    kf = KFold(n_splits=K, random_state=100, shuffle=True)
     for train_index, test_index in kf.split(data):
         #print("TRAIN:", train_index, "TEST:", test_index)
         X_train_data =[]
