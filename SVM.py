@@ -21,17 +21,6 @@ def SVM(X_train,X_test,X_train_data,X_test_data):
     clf.fit(X_train_data, y_train)
     
     y_test = getY(X_test)
-    j = 0 
-    goods = 0
-    bads =0
-    for i in X_test_data:
-        res = clf.predict([i])
-        if res == y_test[j]:
-            print('Good')
-            goods+=1
-        else:
-            bads+=1
-            print("Bad")
-        j += 1
+    return clf.score(X_test_data,y_test)
         
 get_partitions(7,SVM)

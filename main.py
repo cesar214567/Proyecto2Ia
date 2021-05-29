@@ -55,28 +55,42 @@ def read_data():
     data = np.load("db.npy",allow_pickle=True)
     return data
 
-def method(X_train,X_test,X_train_data,X_test_data):
+'''def method(X_train,X_test,X_train_data,X_test_data):
     print(X_train[0]) 
     print(X_train_data[0]) 
     print("###########")
     print(X_test[0]) 
     print(X_test_data[0]) 
     print("########################")
+'''
 
 def get_partitions(K,method): # K-folds N<K
     data = read_data() #####################################
+    data_train, data_test = train_test_split(data, test_size=0.3)
     kf = KFold(n_splits=K, random_state=100, shuffle=True)
-    for train_index, test_index in kf.split(data):
+    error = 0
+    for train_index, test_index in kf.split(data_train):
         #print("TRAIN:", train_index, "TEST:", test_index)
-        X_train_data =[]
-        X_test_data = []
-        X_train, X_test = data[train_index], data[test_index]
-        for item in X_train:
-            X_train_data.append(item["data"])
-        for item in X_test:
-            X_test_data.append(item["data"])
+        train_data =[]
+        test_data = []
+        train, test = data_train[train_index], data_train[test_index]
+        for item in train:
+            train_data.append(item["data"])
+        for item in test:
+            test_data.append(item["data"])
         ##here goes the algorithm
-        method(X_train,X_test,X_train_data,X_test_data)
+        temp = method(train,test,train_data,test_data)
+        print(temp)
+        error+=temp
+    print("Error final: ", error/K)
+    train_data =[]
+    test_data = []
+    for item in data_train:
+        train_data.append(item["data"])
+    for item in data_test:
+        test_data.append(item["data"])
+    print("Error model: ", method(data_train,data_test,train_data,test_data))
+    
 
 
 #get_partitions(2,knn)

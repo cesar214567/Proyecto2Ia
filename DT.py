@@ -11,23 +11,10 @@ def DT(X_train,X_test,X_train_data,X_test_data):
     #print(y_train)
     decision_tree = DecisionTreeClassifier(random_state=0, max_depth=10)
     decision_tree = decision_tree.fit(X_train_data, y_train)
-    print(plot_tree(decision_tree)) 
+    #print(plot_tree(decision_tree)) 
     #r = export_text(decision_tree, feature_names=iris['feature_names'])
     
     y_test = getY(X_test)
-    j = 0 
-    goods = 0
-    bads = 0
-    for i in X_test_data:
-        res = decision_tree.predict([i])
-        if res == y_test[j]:
-            print('Good')
-            goods+=1
-        else:
-            print("Bad")
-            bads+=1
-        j += 1
-    print("goods: ",goods)
-    print("bads: ",bads)
+    return decision_tree.score(X_test_data, y_test)
 
 get_partitions(5,DT)

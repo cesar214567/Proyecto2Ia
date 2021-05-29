@@ -30,25 +30,24 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data):
             diccionary[X_train[result]['type']] += 1
         
         if X_test[i]['type'] == find_type(diccionary):
-            print('Good')
+            #print('Good')
             goods+=1
         else:
-            print('Bad')
+           # print('Bad')
             bads+=1
-            print(X_test[i]['type'])
-            print(find_type(diccionary))
+            #print(X_test[i]['type'])
+            #print(find_type(diccionary))
         i+=1
-    print("goods: ",goods)
-    print("bads: ",bads)
+    return goods/(goods+bads)
                 
 
 def knn(X_train,X_test,X_train_data,X_test_data):
 
-    nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X_train_data)
+    nbrs = NearestNeighbors(n_neighbors=1, algorithm='ball_tree').fit(X_train_data)
     #kdt = KDTree(X_train_data, leaf_size=30, metric='euclidean')
     #response = kdt.query(X_test_data, k=5, return_distance=False)
     distances, indices = nbrs.kneighbors(X_test_data)
-    results(X_train,X_test,X_train_data,X_test_data,indices)
+    return(results(X_train,X_test,X_train_data,X_test_data,indices))
 
 
     
