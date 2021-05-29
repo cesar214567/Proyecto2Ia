@@ -16,7 +16,6 @@ def getY(X):
 
 def SVM(X_train,X_test,X_train_data,X_test_data): 
     y_train = getY(X_train)
-    #X_train_data, y_train = make_classification(n_features=len(X_train_data[0]), random_state=0)
     clf = make_pipeline(StandardScaler(),
                         LinearSVC(random_state=0, tol=1e-5))
     clf.fit(X_train_data, y_train)
