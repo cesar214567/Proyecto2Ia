@@ -10,7 +10,6 @@ KFoldValidation(10, knn)
 bootstrap(10, knn)
 
 
-
 print("Support Vector Machine Test--------------------------------------")
 KFoldValidation(10, SVM)
 bootstrap(10, SVM)
