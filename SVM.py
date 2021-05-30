@@ -3,7 +3,6 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
-#from KNN import save_data
 from utilities import getY
 from utilities import confuse_matrix
 
