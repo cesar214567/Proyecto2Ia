@@ -57,6 +57,7 @@ def KFoldValidation(K,method): # K-folds N<K
         results = fold(data, kf, data_train, K, option, method)
         print(method_name, "KFold", " - option ", option)
         print("Final estimator accuracy", results[0])
+        print("Final estimator variance", results[1])
         print("Final estimator error", 1-results[0])
         accuracies.append(results[0])
         variances.append(results[1])

@@ -31,10 +31,6 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data,method,option):
         else:
             bads+=1
         i+=1
-    print("res---------------------------")
-    print(res)
-    print("-------------------")
-    print(final_results)
     confuse_matrix(res,final_results,'KNN_'+ str(option)+ '_' + str(method))
     return goods/(goods+bads)
                 
