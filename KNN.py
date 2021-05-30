@@ -27,7 +27,7 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data):
     return goods/(goods+bads)
                 
 
-def knn(X_train,X_test,X_train_data,X_test_data,method=None,show = False):
-    nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X_train_data)
+def knn(X_train,X_test,X_train_data,X_test_data,option,method=None,show = False):
+    nbrs = NearestNeighbors(n_neighbors=option, algorithm='ball_tree').fit(X_train_data)
     distances, indices = nbrs.kneighbors(X_test_data)
     return(results(X_train,X_test,X_train_data,X_test_data,indices))

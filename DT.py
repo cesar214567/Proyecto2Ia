@@ -4,9 +4,9 @@ from utilities import confuse_matrix
 import numpy as np
 
 
-def DT(X_train,X_test,X_train_data,X_test_data,method=None,show=False):
+def DT(X_train,X_test,X_train_data,X_test_data,option,method=None,show=False):
     y_train = getY(X_train)
-    decision_tree = DecisionTreeClassifier(random_state=0, max_depth=10)
+    decision_tree = DecisionTreeClassifier(random_state=0, max_depth=option)
     decision_tree = decision_tree.fit(X_train_data, y_train)
     y_test = getY(X_test)
     
