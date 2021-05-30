@@ -9,6 +9,10 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 from numpy import mean, var
+
+
+plt.style.use('seaborn-whitegrid')
+
 def distribute_data(train,test):
     train_data =[]
     test_data = []
@@ -27,13 +31,8 @@ def set_options(method_name):
         return [1e1, 1e-1, 1, 1e-2, 1e-3, 1e-4, 1e-5]
 
 
-<<<<<<< HEAD
 def fold(kf, data_train, K, option, method):
-    accuracy = 0
-=======
-def fold(data,kf, data_train, K, option, method):
     accuracies = []
->>>>>>> 4d2ab19e6f1bb88ad8e46c340ea1e6d40a7758aa
     for train_index, test_index in kf.split(data_train):
         train, test = data_train[train_index], data_train[test_index]
         train_data,test_data = distribute_data(train,test)
@@ -43,11 +42,16 @@ def fold(data,kf, data_train, K, option, method):
     varianza = var(accuracies)
     return [promedio, varianza]
 
-def plot(options,accuracies,method_name,type):
+def plot(options,accuracies,variancy,method_name,type):
     plt.axis([0,options[len(options)-1]+1,0,1])
-    plt.plot(options,accuracies,'*')
+    plt.errorbar(x=options,y=accuracies,elinewidth=3, fmt='-o')
     #plt.show()
     plt.savefig('results/'+method_name+'-'+type+'.png')
+    plt.clf()
+    plt.axis([0,options[len(options)-1]+1,0,max(variancy)*1.5])
+    plt.errorbar(x=options,y=variancy,elinewidth=3, fmt='-o')
+    #plt.show()
+    plt.savefig('results/'+method_name+'-'+type+'_variancy'+'.png')
     plt.clf()
 
 def KFoldValidation(K,method): # K-folds N<K
@@ -60,11 +64,7 @@ def KFoldValidation(K,method): # K-folds N<K
     variances = []
     errors = []
     for option in options:
-<<<<<<< HEAD
-        temp_accuracy = fold(kf, data_train, K, option, method)
-=======
-        results = fold(data, kf, data_train, K, option, method)
->>>>>>> 4d2ab19e6f1bb88ad8e46c340ea1e6d40a7758aa
+        results = fold(kf, data_train, K, option, method)
         print(method_name, "KFold", " - option ", option)
         print("Final estimator accuracy", results[0])
         print("Final estimator variance", results[1])
@@ -74,7 +74,7 @@ def KFoldValidation(K,method): # K-folds N<K
         errors.append(1-results[0])
     if(method_name == "SVM"):
         options = [1, 0, -1,- 2, -3, -4, -5]
-    plot(options,accuracies,method_name,'Kfold')
+    plot(options,accuracies,variances,method_name,'Kfold')
     '''train_data,test_data = distribute_data(data_train,data_test)
     accuracy = method(data_train,data_test,train_data,test_data,"KFold",True)
     print("Model accuracy: ", accuracy)
@@ -112,7 +112,7 @@ def bootstrap(K,method): # K-folds N<K
         errors.append(1-results[0])
     if(method_name == "SVM"):
         options = [1, 0, -1,- 2, -3, -4, -5]
-    plot(options,accuracies,method_name,'bootstrap')
+    plot(options,accuracies,variances,method_name,'bootstrap')
 
     '''train_data,test_data = distribute_data(data_train,data_test)
     accuracy = method(data_train,data_test,train_data,test_data,"Bootstrap",True)
