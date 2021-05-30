@@ -43,6 +43,10 @@ def save_data():
 
 def read_data():
     data = np.load("db.npy",allow_pickle=True)
+    arr = []
+    for d in data:
+        arr.append(d['data'])
+    np.savetxt("dbknn.csv",arr, delimiter=",")
     return data
 
 def init(read_file=False):
@@ -73,3 +77,5 @@ def confuse_matrix(y_ts, results, name):
         elif(results[i] != 0 and results[i]!=y_ts[i]):
             TN += 1
     return [TP, FP, TN, FN]
+
+read_data()
