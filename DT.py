@@ -23,7 +23,8 @@ def DT(X_train,X_test,X_train_data,X_test_data,show=False):
 
     return decision_tree.score(X_test_data, y_test)
 
-#get_partitions(5,DT)
 rs = RandomState(MT19937(SeedSequence(123456789)))
 np.random.seed(3)
-bootstrap(5,DT)
+get_partitions(10,DT)
+bootstrap(10, DT)
+

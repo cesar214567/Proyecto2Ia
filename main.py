@@ -47,7 +47,7 @@ def read_data():
 def get_partitions(K,method): # K-folds N<K
     data = read_data() #####################################
     data_train, data_test = train_test_split(data, test_size=0.3)
-    kf = KFold(n_splits=K, random_state=100, shuffle=True)
+    kf = KFold(n_splits=K)
     error = 0
     for train_index, test_index in kf.split(data_train):
         #print("TRAIN:", train_index, "TEST:", test_index)
@@ -120,11 +120,6 @@ def bootstrap(K,method): # K-folds N<K
         test_data.append(item["data"])
     print("Error model: ", method(data_train,data_test,train_data,test_data,True))
 
-#if __name__ == "__main__":
-#    rs = RandomState(MT19937(SeedSequence(123456789)))
-#    np.random.seed(3)
-#    bootstrap(5,DT)
-    #get_partitions(5,DT)
 
 
 

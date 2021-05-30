@@ -3,6 +3,7 @@ from sklearn.neighbors import KDTree
 import numpy as np
 from main import get_partitions
 from main import save_data
+from main import bootstrap
 
 def find_type(diccionary):
     mx = 0
@@ -37,3 +38,4 @@ def knn(X_train,X_test,X_train_data,X_test_data, show = False):
 
 save_data()
 get_partitions(7,knn)
+bootstrap(7,knn)
