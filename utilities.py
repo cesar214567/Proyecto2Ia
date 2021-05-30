@@ -21,7 +21,7 @@ def getType(data):
 
 
 def save_data():
-    ds_train = []
+    data = []
     fl = open("db.txt", "r")
     cont =0
     
@@ -36,10 +36,10 @@ def save_data():
         LL, (LH, HL, HH) = coeffs2
         LL = LL.flatten()        
         dict = {"id":cont,"type":getType(real_url),"url":real_url , "data":LL}
-        ds_train.append(dict)
+        data.append(dict)
         cont+=1
-    np.save("db.npy",ds_train,allow_pickle=True)
-    return ds_train
+    np.save("db.npy",data,allow_pickle=True)
+    return data
 
 def read_data():
     data = np.load("db.npy",allow_pickle=True)
