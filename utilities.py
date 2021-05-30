@@ -78,6 +78,7 @@ def confuse_matrix(y_ts, results, name):
     plt.figure(figsize = (10,7))
     sn.heatmap(df_cm, annot=True)
     plt.savefig("confusion_matrixes/"+name)
+    plt.clf()
     TP = 0
     FP = 0
     TN = 0

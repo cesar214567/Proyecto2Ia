@@ -1,3 +1,4 @@
+from scipy.sparse.construct import random
 from utilities import read_data
 from utilities import read_data_less
 from sklearn.utils import resample
@@ -25,10 +26,10 @@ def set_options(method_name):
         return [1e-2, 1e-3, 1e-4, 1e-5]
 
 
-def fold(data,kf, data_train, K, option, method):
+def fold(kf, data_train, K, option, method):
     accuracy = 0
     for train_index, test_index in kf.split(data_train):
-        train, test = data[train_index], data[test_index]
+        train, test = data_train[train_index], data_train[test_index]
         train_data,test_data = distribute_data(train,test)
         temp = method(train,test,train_data,test_data, option,"KFold")
         accuracy+=temp
@@ -44,13 +45,13 @@ def plot(options,accuracies,method_name,type):
 def KFoldValidation(K,method): # K-folds N<K
     data = read_data_less()
     method_name = method.__name__
-    data_train, data_test = train_test_split(data, test_size=0.3)
+    data_train, data_test = train_test_split(data, test_size=0.3,random_state=25)
     kf = KFold(n_splits=K)
     options = set_options(method_name)
     accuracies = []
     errors = []
     for option in options:
-        temp_accuracy = fold(data, kf, data_train, K, option, method)
+        temp_accuracy = fold(kf, data_train, K, option, method)
         print(method_name, "KFold", " - option ", option)
         print("Final estimator accuracy", temp_accuracy)
         print("Final estimator error", 1-temp_accuracy)
