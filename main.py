@@ -4,25 +4,12 @@ from matplotlib.image import imread
 from numpy.lib.type_check import real
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
+from sklearn import metrics
+import pandas as pd
+import seaborn as sn
 import pywt
 import pywt.data
 
-#A = imread("CK+48/sadness/S115_004_00000016.png")
-#original = A
-## Load image
-##original = pywt.data.camera()
-#
-## Wavelet transform of image, and plot approximation and details
-#titles = ['Approximation', ' Horizontal detail',
-#          'Vertical detail', 'Diagonal detail']
-#coeffs2 = pywt.dwt2(original, 'haar')
-#LL, (LH, HL, HH) = coeffs2
-#print(LL.flatten())
-#print("--------")
-#coeffs2 = pywt.dwt2(LL, 'haar')
-#LL, (LH, HL, HH) = coeffs2
-#print(LL.flatten())
-#
 def getType(data):
     words = data.split("/")
     return words[1]
@@ -89,37 +76,28 @@ def get_partitions(K,method): # K-folds N<K
         train_data.append(item["data"])
     for item in data_test:
         test_data.append(item["data"])
-    print("Error model: ", method(data_train,data_test,train_data,test_data))
+    print("Error model: ", method(data_train,data_test,train_data,test_data,True))
     
 
-
-#get_partitions(2,knn)
-
-#fig = plt.figure(figsize=(12, 3))
-#for i, a in enumerate([LL, LH, HL, HH]):
-#    ax = fig.add_subplot(1, 4, i + 1)
-#    ax.imshow(a, interpolation="nearest", cmap=plt.cm.gray)
-#    ax.set_title(titles[i], fontsize=10)
-#    ax.set_xticks([])
-#    ax.set_yticks([])
-#
-#fig.tight_layout()
-#plt.show()
-#plt.clf()
-#
-#
-#
-#coeffs2 = pywt.dwt2(LL, 'bior1.3')
-#LL, (LH, HL, HH) = coeffs2
-#print(LL)
-#
-#fig = plt.figure(figsize=(12, 3))
-#for i, a in enumerate([LL, LH, HL, HH]):
-#    ax = fig.add_subplot(1, 4, i + 1)
-#    ax.imshow(a, interpolation="nearest", cmap=plt.cm.gray)
-#    ax.set_title(titles[i], fontsize=10)
-#    ax.set_xticks([])
-#    ax.set_yticks([])
-#
-#fig.tight_layout()
-#plt.show()
+def confuse_matrix(y_ts, results):
+  labels = ["fear", "anger", "contempt", "happy", "disgust","sadness","surprise"]
+  confusion_matrix = metrics.confusion_matrix(y_ts, results, labels=labels)
+  df_cm = pd.DataFrame(confusion_matrix, index = labels,
+                  columns = labels)
+  plt.figure(figsize = (10,7))
+  sn.heatmap(df_cm, annot=True)
+  plt.show()
+  TP = 0
+  FP = 0
+  TN = 0
+  FN = 0
+  for i in range(len(results)):
+    if(results[i] == 0 and results[i]==y_ts[i]):
+      TP += 1
+    elif(results[i] == 0 and results[i]!=y_ts[i]):
+      FP += 1
+    elif(results[i] != 0 and results[i]==y_ts[i]):
+      FN += 1
+    elif(results[i] != 0 and results[i]!=y_ts[i]):
+      TN += 1
+  return [TP, FP, TN, FN]

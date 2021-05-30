@@ -41,9 +41,9 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data):
     return goods/(goods+bads)
                 
 
-def knn(X_train,X_test,X_train_data,X_test_data):
+def knn(X_train,X_test,X_train_data,X_test_data, show = False):
 
-    nbrs = NearestNeighbors(n_neighbors=1, algorithm='ball_tree').fit(X_train_data)
+    nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X_train_data)
     #kdt = KDTree(X_train_data, leaf_size=30, metric='euclidean')
     #response = kdt.query(X_test_data, k=5, return_distance=False)
     distances, indices = nbrs.kneighbors(X_test_data)

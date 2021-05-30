@@ -14,7 +14,7 @@ def getY(X):
 #               ('linearsvc', LinearSVC(random_state=0, tol=1e-05))])
 
 
-def SVM(X_train,X_test,X_train_data,X_test_data): 
+def SVM(X_train,X_test,X_train_data,X_test_data, show=False): 
     y_train = getY(X_train)
     clf = make_pipeline(StandardScaler(),
                         LinearSVC(random_state=0, tol=1e-5))
