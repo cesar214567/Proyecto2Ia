@@ -114,5 +114,5 @@ def bootstrap(K,method): # K-folds N<K
     train_data.append(item["data"])
   for item in data_test:
     test_data.append(item["data"])
-  print("Error model: ", method(data_train,data_test,train_data,test_data))
+  print("Error model: ", method(data_train,data_test,train_data,test_data,True))
     
