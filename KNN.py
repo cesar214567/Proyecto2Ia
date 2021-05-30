@@ -4,11 +4,6 @@ import numpy as np
 from main import get_partitions
 from main import save_data
 
-
-#X = read_data()
-#nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X)
-#distances, indices = nbrs.kneighbors(X)
-
 def find_type(diccionary):
     mx = 0
     mv = ''
@@ -18,8 +13,6 @@ def find_type(diccionary):
             mx = value
     return mv
       
-
-
 def results(X_train,X_test,X_train_data,X_test_data,results_data):
     i = 0
     goods =0
@@ -30,26 +23,17 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data):
             diccionary[X_train[result]['type']] += 1
         
         if X_test[i]['type'] == find_type(diccionary):
-            #print('Good')
             goods+=1
         else:
-           # print('Bad')
             bads+=1
-            #print(X_test[i]['type'])
-            #print(find_type(diccionary))
         i+=1
     return goods/(goods+bads)
                 
 
 def knn(X_train,X_test,X_train_data,X_test_data, show = False):
-
     nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X_train_data)
-    #kdt = KDTree(X_train_data, leaf_size=30, metric='euclidean')
-    #response = kdt.query(X_test_data, k=5, return_distance=False)
     distances, indices = nbrs.kneighbors(X_test_data)
     return(results(X_train,X_test,X_train_data,X_test_data,indices))
 
-
-    
 save_data()
 get_partitions(7,knn)

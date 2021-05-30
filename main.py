@@ -36,20 +36,9 @@ def save_data():
     np.save("db.npy",ds_train,allow_pickle=True)
     return ds_train
 
-#save_data()
-
 def read_data():
     data = np.load("db.npy",allow_pickle=True)
     return data
-
-'''def method(X_train,X_test,X_train_data,X_test_data):
-    print(X_train[0]) 
-    print(X_train_data[0]) 
-    print("###########")
-    print(X_test[0]) 
-    print(X_test_data[0]) 
-    print("########################")
-'''
 
 def get_partitions(K,method): # K-folds N<K
     data = read_data() #####################################
@@ -101,3 +90,29 @@ def confuse_matrix(y_ts, results):
     elif(results[i] != 0 and results[i]!=y_ts[i]):
       TN += 1
   return [TP, FP, TN, FN]
+
+def bootstrap(K,method): # K-folds N<K
+  data = read_data() #####################################
+  data_train, data_test = train_test_split(data, test_size=0.3)
+  error = 0
+  for rep in range(K):
+    boot_sample = resample(data_train, n_samples=len(data_train))
+    test_set = [x for x in data if x not in boot_sample]
+    train_data =[]
+    test_data = []
+    for item in boot_sample:
+      train_data.append(item["data"])
+    for item in test_set:
+      test_data.append(item["data"])
+    temp = method(boot_sample,test_set,train_data,test_data)
+    print(temp)
+    error+=temp
+  print("Error final: ", error/K)
+  train_data =[]
+  test_data = []
+  for item in data_train:
+    train_data.append(item["data"])
+  for item in data_test:
+    test_data.append(item["data"])
+  print("Error model: ", method(data_train,data_test,train_data,test_data))
+    

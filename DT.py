@@ -7,14 +7,9 @@ from main import get_partitions
 from main import confuse_matrix
 
 def DT(X_train,X_test,X_train_data,X_test_data,show=False):
-    #iris = load_iris()
     y_train = getY(X_train)
-    #print(y_train)
     decision_tree = DecisionTreeClassifier(random_state=0, max_depth=10)
     decision_tree = decision_tree.fit(X_train_data, y_train)
-    #print(plot_tree(decision_tree)) 
-    #r = export_text(decision_tree, feature_names=iris['feature_names'])
-    
     y_test = getY(X_test)
     
     if show == True:
