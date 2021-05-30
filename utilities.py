@@ -44,7 +44,6 @@ def save_data():
 
 def read_data():
     data = np.load("db.npy",allow_pickle=True)
-    print(data)
     arr = []
     for d in data:
         arr.append(d['data'])
