@@ -4,6 +4,7 @@ from sklearn.tree import export_text
 from sklearn.tree import plot_tree
 from SVM import getY
 from main import get_partitions
+from main import bootstrap
 from main import confuse_matrix
 
 def DT(X_train,X_test,X_train_data,X_test_data,show=False):
@@ -19,3 +20,4 @@ def DT(X_train,X_test,X_train_data,X_test_data,show=False):
     return decision_tree.score(X_test_data, y_test)
 
 get_partitions(5,DT)
+bootstrap(5,DT)
