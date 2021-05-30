@@ -2,7 +2,7 @@ from utilities import read_data
 from sklearn.utils import resample
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
-
+import matplotlib.pyplot as plt
 def distribute_data(train,test):
     train_data =[]
     test_data = []
@@ -16,7 +16,7 @@ def set_options(method_name):
     if(method_name == "knn"):
         return [1, 2, 4, 6, 8, 10, 12, 14]
     elif(method_name == "DT"):
-        return [10, 12, 14, 16, 20, 24, 28, 32, 36]
+        return [2,4,8,16,32]
     elif(method_name == "SVM"):
         return [1e-2, 1e-3, 1e-4, 1e-5]
 
@@ -30,7 +30,15 @@ def fold(data,kf, data_train, K, option, method):
         accuracy+=temp
     return accuracy/K
 
+def plot(options,accuracies,method_name,type):
+    plt.axis([0,options[len(options)-1]+1,0,1])
+    plt.plot(options,accuracies,'*')
+    #plt.show()
+    plt.savefig('results/'+method_name+'-'+type+'.png')
+    plt.clf()
+
 def KFoldValidation(K,method): # K-folds N<K
+    
     data = read_data()
     method_name = method.__name__
     data_train, data_test = train_test_split(data, test_size=0.3)
@@ -45,7 +53,7 @@ def KFoldValidation(K,method): # K-folds N<K
         print("Final estimator error", 1-temp_accuracy)
         accuracies.append(temp_accuracy)
         errors.append(1-temp_accuracy)
-        
+    plot(options,accuracies,method_name,'Kfold')
     '''train_data,test_data = distribute_data(data_train,data_test)
     accuracy = method(data_train,data_test,train_data,test_data,"KFold",True)
     print("Model accuracy: ", accuracy)
@@ -77,6 +85,7 @@ def bootstrap(K,method): # K-folds N<K
         print("Final estimator error", 1-temp_accuracy)
         accuracies.append(temp_accuracy)
         errors.append(1-temp_accuracy)
+    plot(options,accuracies,method_name,'bootstrap')
 
     '''train_data,test_data = distribute_data(data_train,data_test)
     accuracy = method(data_train,data_test,train_data,test_data,"Bootstrap",True)
