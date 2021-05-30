@@ -4,7 +4,12 @@ from sklearn.tree import export_text
 from sklearn.tree import plot_tree
 from SVM import getY
 from main import get_partitions
+from main import bootstrap
 from main import confuse_matrix
+from numpy.random import MT19937
+from numpy.random import RandomState, SeedSequence
+import numpy as np
+
 
 def DT(X_train,X_test,X_train_data,X_test_data,show=False):
     y_train = getY(X_train)
@@ -18,4 +23,7 @@ def DT(X_train,X_test,X_train_data,X_test_data,show=False):
 
     return decision_tree.score(X_test_data, y_test)
 
-get_partitions(5,DT)
+#get_partitions(5,DT)
+rs = RandomState(MT19937(SeedSequence(123456789)))
+np.random.seed(3)
+bootstrap(5,DT)

@@ -3,7 +3,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import make_classification
 #from KNN import save_data
-from main import get_partitions
+#from main import get_partitions
 def getY(X):
     y = []
     for i in X:
@@ -19,4 +19,4 @@ def SVM(X_train,X_test,X_train_data,X_test_data, show=False):
     y_test = getY(X_test)
     return clf.score(X_test_data,y_test)
         
-get_partitions(7,SVM)
+#get_partitions(7,SVM)
