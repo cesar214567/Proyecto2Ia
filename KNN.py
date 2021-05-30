@@ -1,9 +1,5 @@
 from sklearn.neighbors import NearestNeighbors
 from sklearn.neighbors import KDTree
-import numpy as np
-from main import get_partitions
-from main import save_data
-from main import bootstrap
 
 def find_type(diccionary):
     mx = 0
@@ -31,11 +27,7 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data):
     return goods/(goods+bads)
                 
 
-def knn(X_train,X_test,X_train_data,X_test_data, show = False):
+def knn(X_train,X_test,X_train_data,X_test_data,method=None,show = False):
     nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X_train_data)
     distances, indices = nbrs.kneighbors(X_test_data)
     return(results(X_train,X_test,X_train_data,X_test_data,indices))
-
-save_data()
-get_partitions(7,knn)
-bootstrap(7,knn)
