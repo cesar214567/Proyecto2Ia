@@ -19,7 +19,7 @@ def distribute_data(train,test):
 
 def set_options(method_name):
     if(method_name == "knn"):
-        return [1, 2, 4, 6, 8, 10, 12, 14]
+        return [1, 2, 4, 6, 8, 10, 12, 14, 18, 22, 26, 30]
     elif(method_name == "DT"):
         return [2, 4, 8, 10, 14, 16, 24, 32, 36]
     elif(method_name == "SVM"):
