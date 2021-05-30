@@ -8,6 +8,7 @@ import pywt
 import pywt.data
 from numpy.random import MT19937
 from numpy.random import RandomState, SeedSequence
+import csv
 
 def getY(X):
     y = []
@@ -43,11 +44,25 @@ def save_data():
 
 def read_data():
     data = np.load("db.npy",allow_pickle=True)
+    print(data)
     arr = []
     for d in data:
         arr.append(d['data'])
     np.savetxt("dbknn.csv",arr, delimiter=",")
     return data
+
+def read_data_less():
+    reader = csv.reader(open("newknndb.csv", "r"), delimiter=",")
+    x = list(reader)
+    result = np.array(x).astype("float")
+    data = np.load("db.npy",allow_pickle=True)
+    dic = []
+    #print(data)
+    for i in range(0,len(data)):
+        dic.append({"type":data[i]['type'], "data":result[i]})
+    #print(dic)
+    return np.array(dic)
+
 
 def init(read_file=False):
     if(read_file):
@@ -78,4 +93,4 @@ def confuse_matrix(y_ts, results, name):
             TN += 1
     return [TP, FP, TN, FN]
 
-read_data()
+#read_data_less()
