@@ -36,7 +36,7 @@ def set_axes(method_name,ax):
     elif(method_name == "DT"):
         ax.set_xlabel('tree height')
     elif(method_name == "SVM"):
-        ax.set_xlabel('tolerance')
+        ax.set_xlabel('tolerance (1eX)')
 
 
 def fold(kf, data_train, K, option, method):
@@ -104,7 +104,7 @@ def KFoldValidation(K,method,show=False): # K-folds N<K
         variances.append(results[1])
         errors.append(1-results[0])
     if(method_name == "SVM"):
-        options = [1, 0, -1,- 2, -3, -4, -5]
+        options = [-5, -4, -3, -2, -1, 0 , 1]
     print("Kfold----- ")
     print("Best i: ",best_i, " best option: ",best_option)
     plot(options,accuracies,variances,method_name,'Kfold')
@@ -155,7 +155,7 @@ def bootstrap(K,method,show= False): # K-folds N<K
         variances.append(results[1])
         errors.append(1-results[0])
     if(method_name == "SVM"):
-        options = [1, 0, -1,- 2, -3, -4, -5]
+        options =  [-5, -4, -3, -2, -1, 0 , 1]
     print("Boostrap----- ")
     print("Best K: ",best_i, " best option: ",best_option)
     
