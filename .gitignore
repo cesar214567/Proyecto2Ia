@@ -1,4 +1,4 @@
 __pycache__
 PROTECTO_2.pdf
-confusion_matrixes/*
-results/*
+confusion_matrixes/*.png
+results/*.png
