@@ -30,6 +30,14 @@ def set_options(method_name):
     elif(method_name == "SVM"):
         return [1e1, 1e-1, 1, 1e-2, 1e-3, 1e-4, 1e-5]
 
+def set_axes(method_name,ax):
+    if(method_name == "knn"):
+        ax.set_xlabel('K')
+    elif(method_name == "DT"):
+        ax.set_xlabel('tree height')
+    elif(method_name == "SVM"):
+        ax.set_xlabel('tolerance')
+
 
 def fold(kf, data_train, K, option, method):
     accuracies = []
@@ -43,13 +51,20 @@ def fold(kf, data_train, K, option, method):
     return [promedio, varianza]
 
 def plot(options,accuracies,variancy,method_name,type):
+
     plt.axis([0,options[len(options)-1]+1,0,1])
-    plt.errorbar(x=options,y=accuracies,elinewidth=3, fmt='-o')
+    fig, ax = plt.subplots()
+    ax.set_ylabel('accuracy')
+    set_axes(method_name,ax)
+    plt.errorbar(x=options,y=accuracies,elinewidth=3, fmt='-o')    
     #plt.show()
     plt.savefig('results/'+method_name+'-'+type+'.png')
     plt.clf()
     plt.axis([0,options[len(options)-1]+1,0,max(variancy)*1.5])
-    plt.errorbar(x=options,y=variancy,elinewidth=3, fmt='-o')
+    fig, ax = plt.subplots()
+    ax.set_ylabel('variancy * e+2')
+    set_axes(method_name,ax)
+    plt.errorbar(x=options,y=np.array(variancy)*100,elinewidth=3, fmt='-o')
     #plt.show()
     plt.savefig('results/'+method_name+'-'+type+'_variancy'+'.png')
     plt.clf()
