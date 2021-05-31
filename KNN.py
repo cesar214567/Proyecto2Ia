@@ -17,6 +17,8 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data,method,option):
     goods =0
     bads = 0
     final_results = []
+    #print(X_test)
+    #print(aaaaaaaaa)
     res = getY(X_test)
     for results in results_data:
         diccionary = {"fear" : 0, "anger": 0, "contempt": 0, "happy": 0, "disgust": 0,"sadness": 0, "surprise": 0}

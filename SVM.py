@@ -14,8 +14,8 @@ def SVM(X_train,X_test,X_train_data,X_test_data,option,method=None,show=False):
     clf.fit(X_train_data, y_train)    
     y_test = getY(X_test)
 
-    if show == True:
-        result = clf.predict(X_test_data)
-        confuse_matrix(y_test,result, "SVM_"+method)
+    #if show == True:
+    result = clf.predict(X_test_data)
+    confuse_matrix(y_test,result, "SVM_"+str(option)+"_"+method+".png")
 
     return clf.score(X_test_data,y_test)
