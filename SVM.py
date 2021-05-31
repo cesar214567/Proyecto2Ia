@@ -18,7 +18,6 @@ def SVM(X_train,X_test,X_train_data,X_test_data,option,method,i):
     #print(option)
     dic =  { 10:1, 1:2, 0.1:3, 0.01:4, 0.001:5, 0.0001:6, 0.00001:7}
 
-
     confuse_matrix(y_test,result, str(method) + '/SVM/' + str(i)  + '_' +  str(dic[option]))
 
     return clf.score(X_test_data,y_test)

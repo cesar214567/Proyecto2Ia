@@ -1,3 +1,4 @@
+from scipy.sparse.construct import random
 from utilities import read_data
 from utilities import read_data_less
 from sklearn.utils import resample
@@ -8,6 +9,10 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 from numpy import mean, var
+
+
+plt.style.use('seaborn-whitegrid')
+
 def distribute_data(train,test):
     train_data =[]
     test_data = []
@@ -19,20 +24,28 @@ def distribute_data(train,test):
 
 def set_options(method_name):
     if(method_name == "knn"):
-        return [1, 2, 4, 6, 8, 10, 12, 14]
+        return [1, 2, 4, 6, 8, 10, 12, 14, 18, 22, 26, 30]
     elif(method_name == "DT"):
         return [2, 4, 8, 10, 14, 16, 24, 32, 36]
     elif(method_name == "SVM"):
         return [10, 1, 0.1, 0.01, 0.001, 0.0001, 0.00001]
 
+def set_axes(method_name,ax):
+    if(method_name == "knn"):
+        ax.set_xlabel('K')
+    elif(method_name == "DT"):
+        ax.set_xlabel('tree height')
+    elif(method_name == "SVM"):
+        ax.set_xlabel('tolerance')
 
-def fold(data,kf, data_train, K, option, method):
+
+def fold(kf, data_train, K, option, method):
     accuracies = []
     best_i = 0
     best = 0
     i = 0
     for train_index, test_index in kf.split(data_train):
-        train, test = data[train_index], data[test_index]
+        train, test = data_train[train_index], data_train[test_index]
         train_data,test_data = distribute_data(train,test)
         temp = method(train,test,train_data,test_data, option, "KFold" , i)
         if temp > best:
@@ -44,11 +57,23 @@ def fold(data,kf, data_train, K, option, method):
     varianza = var(accuracies)
     return [promedio, varianza, best,best_i]
 
-def plot(options,accuracies,method_name,type):
+def plot(options,accuracies,variancy,method_name,type):
+
     plt.axis([0,options[len(options)-1]+1,0,1])
-    plt.plot(options,accuracies,'*')
+    fig, ax = plt.subplots()
+    ax.set_ylabel('accuracy')
+    set_axes(method_name,ax)
+    plt.errorbar(x=options,y=accuracies,elinewidth=3, fmt='-o')    
     #plt.show()
     plt.savefig('results/'+method_name+'-'+type+'.png')
+    plt.clf()
+    plt.axis([0,options[len(options)-1]+1,0,max(variancy)*1.5])
+    fig, ax = plt.subplots()
+    ax.set_ylabel('variancy * e+2')
+    set_axes(method_name,ax)
+    plt.errorbar(x=options,y=np.array(variancy)*100,elinewidth=3, fmt='-o')
+    #plt.show()
+    plt.savefig('results/'+method_name+'-'+type+'_variancy'+'.png')
     plt.clf()
 
 def KFoldValidation(K,method,show=False): # K-folds N<K
@@ -65,7 +90,7 @@ def KFoldValidation(K,method,show=False): # K-folds N<K
     best_option= 0
     best_i = 0
     for option in options:
-        results = fold(data, kf, data_train, K, option, method)
+        results = fold( kf, data_train, K, option, method)
         if results[2]> best:
             best = results[2]
             best_option = option
@@ -80,23 +105,10 @@ def KFoldValidation(K,method,show=False): # K-folds N<K
         errors.append(1-results[0])
     if(method_name == "SVM"):
         options = [1, 0, -1,- 2, -3, -4, -5]
-    plot(options,accuracies,method_name,'Kfold')
     print("Kfold----- ")
     print("Best i: ",best_i, " best option: ",best_option)
+    plot(options,accuracies,variances,method_name,'Kfold')
 
-    '''
-    best = 0
-    best_option= 0
-    for option in options:
-        train_data,test_data = distribute_data(data_train,data_test)
-        accuracy = method(data_train,data_test,train_data,test_data, option,"KFold",True)
-        if accuracy > best:
-            best = accuracy
-            best_option = option
-        print("Model accuracy: ", accuracy)
-        print("Model error: ", 1-accuracy) 
-    print("Mode best option: ", best_option)
-    '''
     return [accuracies, errors]
     
 def sampling(data, data_train, K, option, method):
@@ -144,14 +156,10 @@ def bootstrap(K,method,show= False): # K-folds N<K
         errors.append(1-results[0])
     if(method_name == "SVM"):
         options = [1, 0, -1,- 2, -3, -4, -5]
-    plot(options,accuracies,method_name,'bootstrap')
     print("Boostrap----- ")
     print("Best K: ",best_i, " best option: ",best_option)
     
-    '''train_data,test_data = distribute_data(data_train,data_test)
-    accuracy = method(data_train,data_test,train_data,test_data,"Bootstrap",True)
-    print("Model accuracy: ", accuracy)
-    print("Model error: ", 1-accuracy)    
-    '''
+    plot(options,accuracies,variances,method_name,'bootstrap')
+
     
     return [accuracies, errors]
