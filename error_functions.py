@@ -26,7 +26,7 @@ def set_options(method_name):
     if(method_name == "knn"):
         return [1, 2, 4, 6, 8, 10, 12, 14, 18, 22, 26, 30]
     elif(method_name == "DT"):
-        return [2, 4, 8, 10, 14, 16, 24, 32, 36]
+        return [2, 4, 8, 12, 16, 22, 30, 36]
     elif(method_name == "SVM"):
         return [10, 1, 0.1, 0.01, 0.001, 0.0001, 0.00001]
 
