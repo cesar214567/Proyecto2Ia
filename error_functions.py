@@ -107,7 +107,7 @@ def KFoldValidation(K,method,show=False): # K-folds N<K
         options = [-5, -4, -3, -2, -1, 0 , 1]
     print("Kfold----- ")
     print("Best i: ",best_i, " best option: ",best_option)
-    plot(options,accuracies,variances,method_name,'Kfold')
+    plot(options,accuracies.reverse(),variances.reverse(),method_name,'Kfold')
 
     return [accuracies, errors]
     
@@ -159,7 +159,7 @@ def bootstrap(K,method,show= False): # K-folds N<K
     print("Boostrap----- ")
     print("Best K: ",best_i, " best option: ",best_option)
     
-    plot(options,accuracies,variances,method_name,'bootstrap')
+    plot(options,accuracies.reverse(),variances.reverse(),method_name,'bootstrap')
 
     
     return [accuracies, errors]
