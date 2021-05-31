@@ -12,7 +12,7 @@ def find_type(diccionary):
             mx = value
     return mv
       
-def results(X_train,X_test,X_train_data,X_test_data,results_data,method,option):
+def results(X_train,X_test,X_train_data,X_test_data,results_data,method,option,j):
     i = 0
     goods =0
     bads = 0
@@ -31,11 +31,11 @@ def results(X_train,X_test,X_train_data,X_test_data,results_data,method,option):
         else:
             bads+=1
         i+=1
-    confuse_matrix(res,final_results,'KNN_'+ str(option)+ '_' + str(method))
+    confuse_matrix(res,final_results,  str(method) + '/KNN/' + str(j)  + '_' +  str(option) )
     return goods/(goods+bads)
                 
 
-def knn(X_train,X_test,X_train_data,X_test_data,option,method=None,show = False):
+def knn(X_train,X_test,X_train_data,X_test_data,option,method, i):
     nbrs = NearestNeighbors(n_neighbors=option, algorithm='ball_tree').fit(X_train_data)
     distances, indices = nbrs.kneighbors(X_test_data)
-    return(results(X_train,X_test,X_train_data,X_test_data,indices,method,option))
+    return(results(X_train,X_test,X_train_data,X_test_data,indices,method,option,i))
